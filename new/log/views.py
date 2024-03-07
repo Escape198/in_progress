@@ -27,3 +27,4 @@ def send_telegram_message_for_admin(text: str) -> dict:
     url_req = f"{url}{TELEGRAM_TOKEN}{message}{ADMIN_CHAT_ID}&text={text}"
     results = requests.get(url_req)
     return results.json()
+
