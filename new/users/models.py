@@ -112,8 +112,6 @@ class Profile(AbstractBaseUser, PermissionsMixin):
         Group,
         blank=True)
 
-    objects = ProfileManager()
-
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []
 
