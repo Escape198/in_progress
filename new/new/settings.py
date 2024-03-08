@@ -16,6 +16,8 @@ CORS_ALLOW_CREDENTIALS = True
 DEBUG = True
 
 INSTALLED_APPS = [
+    'users.apps.UsersConfig',
+    'funnel.apps.FunnelConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -102,6 +104,8 @@ USE_L10N = True
 
 USE_TZ = True
 
+AUTH_USER_MODEL = 'users.Profile'
+
 STATIC_URL = '/static/'
 STATIC_ROOT = os.getenv('STATIC_ROOT')
 
@@ -109,4 +113,3 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR.parent, 'static/media')
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-
