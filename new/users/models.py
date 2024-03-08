@@ -1,10 +1,12 @@
+from datetime import date
+
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 from django.contrib.auth.models import Group
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
 from django.core.validators import MinLengthValidator, MaxLengthValidator
 
-from datetime import date
+from .managers import ProfileManager
 
 
 def directory_path_users(instance, filename):
@@ -112,6 +114,8 @@ class Profile(AbstractBaseUser, PermissionsMixin):
         Group,
         blank=True)
 
+    objects = ProfileManager()
+
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []
 
@@ -120,6 +124,10 @@ class Profile(AbstractBaseUser, PermissionsMixin):
 
     def save(self, *args, **kwargs):
         super().save()
+
+
+    class Meta:
+        db_table = 'Users'
 
 
 class AmoCRMContacts(models.Model):
