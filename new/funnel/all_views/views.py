@@ -18,7 +18,7 @@ def get_form(request) -> list:
 
 
 @csrf_exempt
-def new_form(request):
+def new_form(request) -> render:
     req = get_form(request)
 
     email, phone, name, product = req
