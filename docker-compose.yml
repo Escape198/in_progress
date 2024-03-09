@@ -2,7 +2,23 @@ version: '3.12'
 
 services:
   django:
-    build: new
+    build:
+      context: .
     ports:
       - '8000:8000'
-
+    volumes:
+      - ./new:/new
+  redis:
+    image: redis:latest
+  worker:
+    build:
+      context: .
+    hostname: worker
+    entrypoint: celery
+    command: -A celery_app.app worker --loglevel=info
+    volumes:
+      - ./new:/new
+    links:
+      - redis
+    depends_on:
+      - redis
