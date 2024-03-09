@@ -14,6 +14,5 @@ app.autodiscover_tasks()
 
 
 @app.task()
-def debug_task():
-    time.sleep(5)
-    print('Hello world')
+def add_task():
+    ...
