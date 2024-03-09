@@ -7,9 +7,9 @@ COPY requirements.txt .
 
 RUN pip install -r requirements.txt
 
-WORKDIR /app
+WORKDIR /new
 
-COPY new .
+COPY . .
 
 RUN chmod -R 777 ./
 
