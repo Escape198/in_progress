@@ -1,19 +1,23 @@
 from pathlib import Path
 import os
-from dotenv import load_dotenv
+import environ
 
 
-load_dotenv()
+env = environ.Env(
+    # set casting, default value
+    DEBUG=(bool, False)
+)
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-SECRET_KEY = os.getenv('SECRET_KEY')
-ALLOWED_HOSTS = [os.getenv('ALLOWED_HOSTS')]
+environ.Env.read_env(os.path.join(BASE_DIR, 'new/.env'))
+
+SECRET_KEY = env('SECRET_KEY')
+ALLOWED_HOSTS = [env('ALLOWED_HOSTS')]
 SECURE_SSL_REDIRECT = False
 CORS_ORIGIN_ALLOW_ALL = True
 CORS_ALLOW_CREDENTIALS = True
-
-DEBUG = True
+DEBUG = env('DEBUG')
 
 INSTALLED_APPS = [
     'users.apps.UsersConfig',
@@ -57,23 +61,7 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'new.wsgi.application'
-"""
-DATABASES = {
-    'default': {
-        'ENGINE': os.getenv('DATABASE_ENGINE'),
-        'NAME': os.getenv('DATABASE_NAME'),
-        'USER': os.getenv('DATABASE_USER'),
-        'PASSWORD': os.getenv('DATABASE_PASSWORD'),
-        'HOST': os.getenv('DATABASE_HOST'),
-        'PORT': os.getenv('DATABASE_PORT'),
-        'OPTIONS': {
-            'connect_timeout': 600,
-            'write_timeout': 28800,
-        },
-        'CONN_MAX_AGE': 0,
-    },
-}
-"""
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
@@ -96,7 +84,7 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-LLANGUAGE_CODE = 'ru-ru'
+LANGUAGE_CODE = 'ru-ru'
 
 TIME_ZONE = 'UTC'
 
@@ -117,7 +105,9 @@ MEDIA_ROOT = os.path.join(BASE_DIR.parent, 'static/media')
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
-TELEGRAM_TOKEN = os.getenv('TELEGRAM_TOKEN')
-TELEGRAM_CHAT_ID = os.getenv('TELEGRAM_CHAT_ID')
-MANAGERS_CHAT_ID = os.getenv('MANAGERS_CHAT_ID')
-ADMIN_CHAT_ID = os.getenv('ADMIN_CHAT_ID')
+TELEGRAM_TOKEN = env('TELEGRAM_TOKEN')
+TELEGRAM_CHAT_ID = env('TELEGRAM_CHAT_ID')
+MANAGERS_CHAT_ID = env('MANAGERS_CHAT_ID')
+ADMIN_CHAT_ID = env('ADMIN_CHAT_ID')
+
+CELERY_BROKER_URL = 'redis://redis:6379/0'
