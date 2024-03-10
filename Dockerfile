@@ -4,12 +4,14 @@ ENV PYTHONUNBUFFERED=1
 ENV PYTHONDONTWRITEBYTECODE=1
 
 COPY requirements.txt .
-
 RUN pip install -r requirements.txt
 
-WORKDIR /new
+WORKDIR /app
 
-COPY . .
+COPY entrypoint.sh /app/
+RUN chmod +x /app/entrypoint.sh
+
+COPY new .
 
 RUN chmod -R 777 ./
 
