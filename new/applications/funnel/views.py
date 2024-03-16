@@ -25,5 +25,4 @@ def new_form(request) -> render:
             response = render(request, 'funnel/payment.html', {'lead': lead})
     else:
         response = render(request, 'funnel/payment.html')
-
     return response
