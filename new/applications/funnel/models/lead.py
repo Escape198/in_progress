@@ -3,16 +3,6 @@ import datetime
 from django.db import models
 
 
-class AdminText(models.Model):
-    first_text = models.TextField(default='')
-    second_text = models.TextField(default='')
-    email_text = models.TextField(default='')
-    slack_channel = models.CharField(default='', max_length=40)
-
-    class Meta:
-        db_table = 'Admin fields'
-
-
 class PaidLead(models.Model):
     time = models.CharField(max_length=30, default='')
 
