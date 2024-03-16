@@ -40,4 +40,4 @@ class Lead(models.Model):
         self.save()
 
     class Meta:
-        db_table = 'Leads from a paid funnel'
+        db_table = 'Leads'
