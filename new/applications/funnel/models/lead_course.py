@@ -1,4 +1,4 @@
-from applications.funnel.models.lead import Lead
+from django.db import models
 
 
 class LeadCourse(models.Model):
@@ -8,7 +8,8 @@ class LeadCourse(models.Model):
     first_cost = models.CharField(max_length=15, default='')
     second_cost = models.CharField(max_length=15, default='')
     start = models.CharField(max_length=20, default='')
-    open_date_bool = models.CharField(max_length=20, default='')
+    open_date_bool = models.BooleanField(max_length=20, default=False)
+    non_existent_course = models.BooleanField(default=False)
 
     def __str__(self):
         return self.lead
