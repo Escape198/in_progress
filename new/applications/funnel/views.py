@@ -21,7 +21,6 @@ def new_form(request) -> render:
                 lead.name, lead.phone, lead.email]
             ):
                 return HttpResponse(400, status=400)
-
             response = render(request, 'funnel/payment.html', {'lead': lead})
     else:
         response = render(request, 'funnel/payment.html')
