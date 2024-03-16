@@ -33,7 +33,7 @@ class Lead(models.Model):
         self.set_courseid()
 
     def set_courseid(self):
-        self.courseid_string = ''.join((
+        self.courseid_str = ''.join((
             x for x in self.courseid if not x.isdigit())).lower()
         self.courseid = self.courseid.lower()
         self.time = datetime.datetime.now()
