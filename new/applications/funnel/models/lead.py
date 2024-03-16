@@ -3,7 +3,7 @@ import datetime
 from django.db import models
 
 
-class PaidLead(models.Model):
+class Lead(models.Model):
     time = models.CharField(max_length=30, default='')
 
     name = models.CharField(max_length=70, default='')
