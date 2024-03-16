@@ -18,7 +18,6 @@ class Link(models.Model):
         self.generate_deal_id(course.courseid, unix_timestamp)
         self.create_link(course.first_cost)
         self.lead = course
-
         self.save()
 
     def to_unixtime(self, time):
