@@ -1,27 +1,26 @@
-import datetime
-import traceback
-
 from django.shortcuts import render
-from django.http import HttpResponse, JsonResponse
+from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
-from django.views import View
+from django.views.decorators.http import require_POST
 
-from applications.log.views import send_telegram_message
-from applications.funnel.models.lead import Lead
+from rest_framework.request import Request
+
+from paid_funnel.custom_check_request import check_request
+
+from log.views import send_error
+from paid_funnel.views.handler import handler
 
 
+@require_POST
 @csrf_exempt
-def new_form(request) -> render:
-    if request.method == 'POST':
-        if True: # Fraud filter
-            lead = Lead()
-            lead.setattr_request(request.POST)
+def paid_funnel(request: Request) -> render:
+    try:
+        if check_request(request, name=request.POST.get('name', '')):
+            return JsonResponse({"code": 400})
 
-            if not lead.check_required_fields([
-                lead.name, lead.phone, lead.email]
-            ):
-                return HttpResponse(400, status=400)
-            response = render(request, 'funnel/payment.html', {'lead': lead})
-    else:
-        response = render(request, 'funnel/payment.html')
-    return response
+        response = handler(request)
+        return response
+
+    except Exception:
+        send_error(request.POST, exc='unknown')
+        return render(request, '500.html')
