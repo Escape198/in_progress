@@ -1,0 +1,18 @@
+from django.http import JsonResponse
+
+from paid_funnel.custom_check_request import check_request
+
+
+def fraud_filter_decorator(func):
+    """
+    Один из этапов валидации. Проверяем источник данных и наличие запрещённых символов
+
+    Возвращает bool - является ли фейком
+    """
+    def wrapper(request, *args, **kwargs):
+        if check_request(request):
+            return JsonResponse({"code": 400})
+        return func(request, *args, **kwargs)
+
+
+    return wrapper
