@@ -4,8 +4,8 @@ from django.views.decorators.csrf import csrf_exempt
 from rest_framework.request import Request
 
 from log.views import send_error
-from paid_funnel.tasks.handler import handler
-from paid_funnel.decorators import fraud_filter_decorator
+from funnel.tasks.handler import handler
+from funnel.decorators import fraud_filter_decorator
 
 
 class PaidFunnel(View):
