@@ -1,26 +1,28 @@
 from django.shortcuts import render
-from django.http import JsonResponse
+from django.views import View
 from django.views.decorators.csrf import csrf_exempt
-from django.views.decorators.http import require_POST
-
 from rest_framework.request import Request
 
-from paid_funnel.custom_check_request import check_request
-
 from log.views import send_error
-from paid_funnel.views.handler import handler
+from paid_funnel.tasks.handler import handler
+from paid_funnel.decorators import fraud_filter_decorator
 
 
-@require_POST
-@csrf_exempt
-def paid_funnel(request: Request) -> render:
-    try:
-        if check_request(request, name=request.POST.get('name', '')):
-            return JsonResponse({"code": 400})
+class PaidFunnel(View):
+    """Воронка платных продуктов"""
+    @staticmethod
+    @fraud_filter_decorator
+    def post(request):
+        try:
+            return handler(request)
+        except Exception:
+            send_error(request.POST, exc='unknown')
 
-        response = handler(request)
-        return response
+    @csrf_exempt
+    def dispatch(self, *args, **kwargs):
+        return super(PaidFunnel, self).dispatch(*args, **kwargs)
 
-    except Exception:
-        send_error(request.POST, exc='unknown')
-        return render(request, '500.html')
+
+def courses_with_open_date(request: Request) -> render:
+    """Вывод для продуктов, недоступных к оплате"""
+    return render(request, 'pay/new_open_date.html')
