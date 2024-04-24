@@ -1,6 +1,6 @@
 from django.http import JsonResponse
 
-from paid_funnel.custom_check_request import check_request
+from funnel.tasks.custom_check_request import check_request
 
 
 def fraud_filter_decorator(func):
